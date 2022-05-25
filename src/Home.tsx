@@ -261,7 +261,6 @@ const Home = (props: HomeProps) => {
                 setWhitelistPrice(cndy.state.price.toNumber() / divider);
             } else {
                 setPrice(cndy.state.price.toNumber() / LAMPORTS_PER_SOL);
-                setPrice(await props.connection.getBalance(wallet.publicKey).getNumberOfChars() / LAMPORTS_PER_SOL);
                 setWhitelistPrice(cndy.state.price.toNumber() / LAMPORTS_PER_SOL); //NOT
             }
 
