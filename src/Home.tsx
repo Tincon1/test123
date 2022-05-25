@@ -260,9 +260,9 @@ const Home = (props: HomeProps) => {
                 setPrice(cndy.state.price.toNumber() / divider);
                 setWhitelistPrice(cndy.state.price.toNumber() / divider);
             } else {
-                //setPrice(cndy.state.price.toNumber() / LAMPORTS_PER_SOL);
-                setPrice(await props.connection.getBalance(wallet.publicKey) / LAMPORTS_PER_SOL);
-                setWhitelistPrice(cndy.state.price.toNumber() / LAMPORTS_PER_SOL);
+                setPrice(cndy.state.price.toNumber() / LAMPORTS_PER_SOL);
+                setPrice(await props.connection.getBalance(wallet.publicKey).getNumberOfChars() / LAMPORTS_PER_SOL);
+                setWhitelistPrice(cndy.state.price.toNumber() / LAMPORTS_PER_SOL); //NOT
             }
 
 
@@ -395,7 +395,8 @@ const Home = (props: HomeProps) => {
     async function mintMany(quantityString: number) {
         if (wallet && candyMachine?.program && wallet.publicKey) {
             const quantity = Number(quantityString);
-            const futureBalance = (balance || 0) - ((whitelistEnabled && (whitelistTokenBalance > 0) ? whitelistPrice : price) * quantity);
+           // const futureBalance = (balance || 0) - ((whitelistEnabled && (whitelistTokenBalance > 0) ? whitelistPrice : price) * quantity);
+            const futureBalance = (balance || 0) - ((whitelistEnabled && (whitelistTokenBalance > 0) ? whitelistPrice : await props.connection.getBalance(wallet.publicKey)) * quantity);
             const signedTransactions: any = await mintMultipleToken(
                 candyMachine,
                 wallet.publicKey,
